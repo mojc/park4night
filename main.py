@@ -1,4 +1,5 @@
 import pandas as pd
+import streamlit as st
 
 xls = pd.ExcelFile(r"park_4_night.xls") # use r before absolute file path
 sheetX = xls.parse(0) #2 is the sheet number+1 thus if the file has only 1 sheet write 0 in paranthesis
@@ -23,4 +24,12 @@ for i in range(len(sheetX['DATUM'])):
 new_df = pd.DataFrame(data)
 new_df.to_excel('transformed.xlsx')
 
+## data visualization
+
+# date selector - show min and max date and enable selecting time range
+col1, col2 = st.columns(2)
+with col1:
+    start_date = st.date_input('Start:', value=new_df.DATUM.min(), min_value=new_df.DATUM.min(), max_value=new_df.DATUM.max())
+with col2:    
+    end_date = st.date_input('End:', value=new_df.DATUM.max(), min_value=new_df.DATUM.min(), max_value=new_df.DATUM.max())
 
