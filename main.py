@@ -1,17 +1,14 @@
 import pandas as pd
 
 xls = pd.ExcelFile(r"park_4_night.xls") # use r before absolute file path
-
 sheetX = xls.parse(0) #2 is the sheet number+1 thus if the file has only 1 sheet write 0 in paranthesis
-# extract relevant columns
-col_names = [col_name for i, col_name in zip(range(27), sheetX.columns)]
-col_names.pop(0)
-col_names.pop(-1)
-col_names.pop(-1)
+
+# define and extract relevant columns
+data = {'DATUM': [], 'DRŽAVA': [], 'ODRASLI': [], 'OTROCI': [], 'KOLESARJI': []}
+col_names = [col_name for col_name in sheetX.columns if col_name.startswith(tuple(data.keys()))]
+col_names.pop(0) # removes DATUM
 
 # custom melt i guess
-data = {'DATUM': [], 'DRŽAVA': [], 'ODRASLI': [], 'OTROCI': [], 'KOLESARJI': []}
-
 for i in range(len(sheetX['DATUM'])):
     k = 0
     for j in range(0, len(col_names), 4):
