@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
 
 xls = pd.ExcelFile(r"park_4_night.xls") # use r before absolute file path
 sheetX = xls.parse(0) #2 is the sheet number+1 thus if the file has only 1 sheet write 0 in paranthesis
@@ -33,3 +34,19 @@ with col1:
 with col2:    
     end_date = st.date_input('End:', value=new_df.DATUM.max(), min_value=new_df.DATUM.min(), max_value=new_df.DATUM.max())
 
+# plotting data
+df = new_df.query(f'DATUM >= "{start_date}" and DATUM <= "{end_date}"')
+df['UNITS'] = 1
+
+# TODO: fix color to specific country stay consistant
+st.write(f'Stevilo vozil: {len(df)}')
+col1, col2 = st.columns(2)
+with col1:
+    fig = px.pie(df, values='ODRASLI', names='DRŽAVA', title='Odrasli na drŽavo.')
+    st.plotly_chart(fig)
+with col2:
+    fig = px.pie(df, values='OTROCI', names='DRŽAVA', title='Otroci na drŽavo.')
+    st.plotly_chart(fig)
+
+fig = px.bar(df, x='DATUM', y='UNITS', color='DRŽAVA', title='Stevilo vozil skozi cas')
+st.plotly_chart(fig)
