@@ -42,9 +42,11 @@ color_map = {'D': 'yellow', 'F': 'royalblue', 'IE': 'saddlebrown', 'CH': 'darkre
 st.write(f'Stevilo vozil: {len(df)}')
 col1, col2 = st.columns(2)
 with col1:
+    st.write(f'Stevilo odraslih: {df.ODRASLI.sum()}')
     fig = px.pie(df, values='ODRASLI', names='DRŽAVA', color='DRŽAVA', title='Odrasli na drŽavo.', color_discrete_map=color_map)
     st.plotly_chart(fig)
 with col2:
+    st.write(f'Stevilo otrok: {df.OTROCI.sum()}')
     fig = px.pie(df, values='OTROCI', names='DRŽAVA', color='DRŽAVA', title='Otroci na drŽavo.', color_discrete_map=color_map)
     st.plotly_chart(fig)
 
