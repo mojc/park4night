@@ -37,16 +37,16 @@ with col2:
 # plotting data
 df = new_df.query(f'DATUM >= "{start_date}" and DATUM <= "{end_date}"')
 df['UNITS'] = 1
+color_map = {'D': 'yellow', 'F': 'royalblue', 'IE': 'saddlebrown', 'CH': 'darkred', 'NL': 'darkorange', 'B': 'limegreen', 'GB': 'teal'}
 
-# TODO: fix color to specific country stay consistant
 st.write(f'Stevilo vozil: {len(df)}')
 col1, col2 = st.columns(2)
 with col1:
-    fig = px.pie(df, values='ODRASLI', names='DRŽAVA', title='Odrasli na drŽavo.')
+    fig = px.pie(df, values='ODRASLI', names='DRŽAVA', color='DRŽAVA', title='Odrasli na drŽavo.', color_discrete_map=color_map)
     st.plotly_chart(fig)
 with col2:
-    fig = px.pie(df, values='OTROCI', names='DRŽAVA', title='Otroci na drŽavo.')
+    fig = px.pie(df, values='OTROCI', names='DRŽAVA', color='DRŽAVA', title='Otroci na drŽavo.', color_discrete_map=color_map)
     st.plotly_chart(fig)
 
-fig = px.bar(df, x='DATUM', y='UNITS', color='DRŽAVA', title='Stevilo vozil skozi cas')
+fig = px.bar(df, x='DATUM', y='UNITS', color='DRŽAVA', color_discrete_map=color_map, title='Stevilo vozil skozi cas')
 st.plotly_chart(fig)
